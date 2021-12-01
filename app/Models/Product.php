@@ -19,4 +19,16 @@ class Product extends Model
     {
         return $this->hasMany(Stock::class);
     }
+
+    public function track()
+    {
+        $this->stock->each->track();
+        //this product has stock at different retailer, we need to track them
+        //for each product it is stock in many locations.
+        //a prduct can track all of its stock. ie where it exists and also a single piece of stock
+        // can be tracked
+        //grap stock associated with each product
+
+
+    }
 }
