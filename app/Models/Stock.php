@@ -18,7 +18,7 @@ class Stock extends Model
     //casting in stock to a boolean for our db
     //stored as 1 or 0 in db
 
-    public function track()
+    public function track($callback = null) //if you receive a callback trigger the function and pass through the stock instance
     {
         //$status will be our stock status object which is returned from the checkavalibaility method
 
@@ -32,19 +32,24 @@ class Stock extends Model
             'price' => $status->price
         ]);
 
-        $this->recordHistory();
+
+        $callback && $callback($this);
+
+        //we check availability
+        //we update the db
+        //if callback it provited we trigger it
 
 
     }
 
-    protected function recordHistory(): void
-    {
-        $this->history()->create([
-            'price' => $this->price,
-            'in_stock' => $this->in_stock,
-            'product_id' => $this->product_id
-        ]);
-    }
+//    protected function recordHistory(): void
+//    {
+//        $this->history()->create([
+//            'price' => $this->price,
+//            'in_stock' => $this->in_stock,
+//            'product_id' => $this->product_id
+//        ]);
+//    }
 
 
 
@@ -54,9 +59,9 @@ class Stock extends Model
     }
 
 
-    public function history()
+    public function product()
     {
-        return $this->hasMany(History::class);
+        return $this->belongsTo(Product::class);
     }
 
 
