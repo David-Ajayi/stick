@@ -9,3 +9,5 @@ interface Client
     //if we implement this api we must return a Stock Status
 
 }
+
+
