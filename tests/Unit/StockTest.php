@@ -41,9 +41,11 @@ class StockTest extends TestCase
 
         $this->seed(RetailerWithProductSeeder::class);
 
-        ClientFactory::shouldReceive('make->checkAvailability')->andReturn(
-            new StockStatus($available = true, $price = 9900)
-        );
+//        ClientFactory::shouldReceive('make->checkAvailability')->andReturn(
+//            new StockStatus($available = true, $price = 9900)
+//        );
+        $this->mockClientRequest($available = true, $price = 9900);
+
         //I don't want to make a new client I want to intercept 'make' for testing
         //client factory should recieve a call to make the check availability on
         //that result

@@ -22,9 +22,10 @@ class ProductHistoryTest extends TestCase
 
 //        Http::fake(fn() => ['salePrice' => 99, 'onlineAvailability' => true]);
 
-        ClientFactory::shouldReceive('make->checkAvailability')
-            ->andReturn(new StockStatus($available = true, $price = 99));
-        //we dont want to make api calls for the purpose of this test
+//        ClientFactory::shouldReceive('make->checkAvailability')
+//            ->andReturn(new StockStatus($available = true, $price = 99));
+        $this->mockClientRequest($available = true, $price = 9900);
+        //we don't want to make api calls for the purpose of this test
 
 //        $this->assertEquals(0, History::count());
 

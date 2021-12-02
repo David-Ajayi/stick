@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Http;
+use App\Events\NowInStock;
 
 class Stock extends Model
 {
-    use HasFactory;
+
     protected $table = 'stock';
     //because we didn't use stock plural we set the table name explicitly
 
@@ -25,6 +26,14 @@ class Stock extends Model
         $status = $this->retailer
             ->client()
             ->checkAvailability($this);
+
+
+        if (! $this->in_stock && $status->available) {
+            event(new NowInStock($this));
+        }
+        //if the stock was not in stock the status is noe in stock
+        //the status is was is returned from thr api request
+        //then notify
 
 
         $this->update([

@@ -6,6 +6,8 @@ use App\Models\Stock;
 use App\Models\Product;
 use App\Models\Retailer;
 use Illuminate\Database\Seeder;
+use App\Models\User;
+
 
 class RetailerWithProductSeeder extends Seeder
 {
@@ -27,6 +29,11 @@ class RetailerWithProductSeeder extends Seeder
             'url' => 'http://foo.com',
             'sku' => '12345',
             'in_stock' => false
+
         ]));
+
+        \App\Models\User::factory()->create(['email' => 'david@email.com']);
+//        factory(User::class)->create(['email' => 'david@email.com']);
+
     }
 }
