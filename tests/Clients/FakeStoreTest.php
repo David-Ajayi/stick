@@ -25,6 +25,7 @@ class FakeStoreTest extends TestCase
             'url' => 'https://www.bestbuy.com/site/nintendo-switch-32gb-console-gray-joy-con/6364253.p?skuId=6364253'
         ]);
 
+
         try {
             (new FakeStore())->checkAvailability($stock);
         } catch (\Exception $e) {
@@ -33,6 +34,17 @@ class FakeStoreTest extends TestCase
         }
 
         $this->assertTrue(true);
+    }
+
+    /** @test */
+    function it_creates_the_proper_stock_status_response()
+    {
+        Http::fake(fn() => ['price' => 299]);
+
+        $stockStatus = (new FakeStore())->checkAvailability(new Stock);
+
+        $this->assertEquals(299, $stockStatus->price);
+        $this->assertTrue($stockStatus->available);
     }
 
 
