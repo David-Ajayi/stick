@@ -27,28 +27,8 @@ class Stock extends Model
         //$status will be our stock status object which is returned from the checkavalibaility method
         (new TrackStock($this))->handle(); //pass through the stock to TrackStock use case
 
+//        TrackStock::dispatch($this);
 
-//
-//
-//        if (! $this->in_stock && $status->available) {
-//            event(new NowInStock($this));
-//        }
-//        //if the stock was not in stock the status is now in stock
-//        //the status is was is returned from thr api request
-//        //then notify
-//        //event is fired
-//
-//        if ($this->price !== $status->price) {
-//            event(new NowInStock($this));
-//        }
-//
-//
-//        $this->update([
-//            'in_stock' => $status->available,
-//            'price' => $status->price
-//        ]);
-//        $callback && $callback($this);
-        //stock is updates then pass the updated stock state to the callback function in Product.php
 
 
     }

@@ -46,7 +46,7 @@ class TrackStock implements ShouldQueue
     {
         if (! $this->stock->in_stock && $this->status->available) {
             User::first()->notify(
-                new ImportantStockUpdate($this->stock) //fire event here
+                new ImportantStockUpdate($this->stock) //updating user here instead of event listening
             );
         }
     }
