@@ -24,18 +24,21 @@ class StockTest extends TestCase
     {
         $this->seed(RetailerWithProductSeeder::class);
 
-        Retailer::first()->update(['name' => 'Foo Retailer']);
+        Retailer::first()->update(['name' => 'non existent Retailer']);
+
 
         $this->expectException(ClientException::class);
 
         Stock::first()->track();
+
+
     }
 
 
      /** @test */
     function it_updates_local_stock_status_after_being_tracked()
         //client factory to determine appropriate client
-        //checkavilability
+
     {
 
 
@@ -44,16 +47,26 @@ class StockTest extends TestCase
 //        ClientFactory::shouldReceive('make->checkAvailability')->andReturn(
 //            new StockStatus($available = true, $price = 9900)
 //        );
-        $this->mockClientRequest($available = true, $price = 9900);
+        $this->mockClientRequest($available = false, $price = 100);
 
-        //I don't want to make a new client I want to intercept 'make' for testing
-        //client factory should recieve a call to make the check availability on
-        //that result
+        //I want to intercept 'make' at the makingfor testing
+        //in client factory to checkavailability()
 
-        $stock = tap(Stock::first())->track();
 
-        $this->assertTrue($stock->in_stock);
-        $this->assertEquals(9900, $stock->price);
+//        $stock = tap(Stock::first())->track();
+        $stock = Stock::first()->track();
+        $stock = Stock::first();
+        $stock->track();
+//        dd($stock);
+//        $status = $this->retailer
+//            ->client()
+//            ->checkAvailability($this);
+//        $stock = Stock::first()->track();
+//        dd($stock);
+
+        $this->assertFalse($stock->in_stock);
+        $this->assertEquals(100, $stock->price);
+
     }
 
 

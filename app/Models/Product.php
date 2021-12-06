@@ -24,28 +24,25 @@ class Product extends Model
     public function track()
     {
 //        $this->stock->each->track();
+        $this->stock->each->track(
+            fn($stock) => $this->recordHistory($stock)
+            //listen for when stock is tracked then record history
+            //this function is triggered and the stock passed through from stock.php when tracked
+        );
+//        $this->stock->each->track();
         //this product has stock at different retailer, we need to track them
         //for each product it is stock in many locations.
         //a prduct can track all of its stock. ie where it exists and also a single piece of stock
         // can be tracked
-        //grap stock associated with each product
-        $this->stock->each->track(
-        fn($stock) => $this->recordHistory($stock)
-    );
+        //grab stock associated with each product
+
         //almost like a listener listen for ehrn stock is tracked then record the history
         //for each stock tack it and return the updated state of that stock stock for record history to save
 
 
     }
 
-    public function recordHistory(Stock $stock)
-    {
-        $this->history()->create([
-            'price' => $stock->price,
-            'in_stock' => $stock->in_stock,
-            'stock_id' => $stock->id//product_id is alread set because we are in the Products model
-        ]);
-    }
+//
 
     public function history()
     {

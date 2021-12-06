@@ -41,6 +41,7 @@ class ProductHistoryTest extends TestCase
         });
 
         $history = History::first();
+//        dd($history);
 
 
         $history = $product->history->first();

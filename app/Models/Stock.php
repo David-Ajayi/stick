@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\UseCases\TrackStock;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Http;
 use App\Events\NowInStock;
+
 
 class Stock extends Model
 {
@@ -19,46 +21,38 @@ class Stock extends Model
     //casting in stock to a boolean for our db
     //stored as 1 or 0 in db
 
-    public function track($callback = null) //if you receive a callback trigger the function and pass through the stock instance
+//    public function track()
+    public function track()
     {
         //$status will be our stock status object which is returned from the checkavalibaility method
-
-        $status = $this->retailer
-            ->client()
-            ->checkAvailability($this);
+        (new TrackStock($this))->handle(); //pass through the stock to TrackStock use case
 
 
-        if (! $this->in_stock && $status->available) {
-            event(new NowInStock($this));
-        }
-        //if the stock was not in stock the status is noe in stock
-        //the status is was is returned from thr api request
-        //then notify
-
-
-        $this->update([
-            'in_stock' => $status->available,
-            'price' => $status->price
-        ]);
-
-
-        $callback && $callback($this);
-
-        //we check availability
-        //we update the db
-        //if callback it provited we trigger it
+//
+//
+//        if (! $this->in_stock && $status->available) {
+//            event(new NowInStock($this));
+//        }
+//        //if the stock was not in stock the status is now in stock
+//        //the status is was is returned from thr api request
+//        //then notify
+//        //event is fired
+//
+//        if ($this->price !== $status->price) {
+//            event(new NowInStock($this));
+//        }
+//
+//
+//        $this->update([
+//            'in_stock' => $status->available,
+//            'price' => $status->price
+//        ]);
+//        $callback && $callback($this);
+        //stock is updates then pass the updated stock state to the callback function in Product.php
 
 
     }
 
-//    protected function recordHistory(): void
-//    {
-//        $this->history()->create([
-//            'price' => $this->price,
-//            'in_stock' => $this->in_stock,
-//            'product_id' => $this->product_id
-//        ]);
-//    }
 
 
 
