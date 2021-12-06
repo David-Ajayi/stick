@@ -31,8 +31,8 @@ class TrackCommand extends Command
         ->tap(fn($products) => $this->output->progressStart($products->count()))
         ->each(function ($product) {
             $product->track();
-
-            $this->info('All done!');
+//
+//            $this->info('All done!');
             $this->output->progressAdvance();
         });
 
